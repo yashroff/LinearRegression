@@ -1,0 +1,56 @@
+---
+title: 'Linear Regression Assignment: Effect of variables on MPG'
+author: "Yasneen Ashroff"
+date: "September 1, 2016"
+output: 
+    html_document: 
+        keep_md: yes
+---
+# Instructions
+You work for Motor Trend, a magazine about the automobile industry. Looking at a data set of a collection of cars, they are interested in exploring the relationship between a set of variables and miles per gallon (MPG) (outcome). They are particularly interested in the following two questions:
+
+- Is an automatic or manual transmission better for MPG
+- Quantify the MPG difference between automatic and manual transmissions
+
+#Summary of findings
+It appears that MPG is affected more by manual transmission than automatic. However, a correct model of the data would also need to include weight, drat and qsec.
+
+#Analysis
+Beginning with a simple boxplot, it seems like mpg is higher with automatic transmission than with manual. 
+```{r}
+data(mtcars)
+boxplot(mtcars$mpg,mtcars$am,ylab="transmission",xlab="MPG")
+```
+
+Fit a model considering am as a factor variable:
+```{r}
+fit<-lm(mpg ~  factor(am) -1, data=mtcars )
+summary(fit)$coef
+```
+
+We can see that value 1 (manual) has a higher coefficient and therefore has a higher impact on MPG. Plotting residuals vs Fitted values and Residuals vs Leverage, and the residuals are equally distributed around the fitted values. It does not appear that one value is skewing the results and the Q-Q plot indicates the population is approximately normal, so a poisson model is not required.
+```{r}
+par(mfrow=c(2,2))
+plot(fit)
+```
+looking at the residuals in more detail, they appear to be randomly distributed, indicating that the model is a good fit of the data.
+```{r}
+plot(resid(fit))
+```
+Based on the results above, it appears that manual transmission has a larger impact on MPG. 
+
+However, it's important to consider the impacts of other variables.
+
+Fit a model considering all variables and look at the weights of the coefficients of each variable.
+```{r}
+fit<-lm(mpg ~ .-1, data=mtcars)
+summary(fit)$coef
+```
+loking at the coefficients, it seems that while transmission (variable name am) has a largest impact on MPG, weight (variable name wt) has a larger impact on MPG. Third impactful is drat (rear axle ratio) followed by qsec (1/4 mile time).
+
+It appears the correct model would include not just transmission, but also weight, rear-axle ratio and 1/4 mile time. Fit a model with these 4 variables.
+```{r}
+fit1<- lm(mpg~wt+am+drat+qsec-1,data=mtcars)
+summary(fit)
+```
+Given this, it appears that while automatic and manual transmission have a large impact on MPG, we cannot conclude they are the only important factors as weight has a larger impact (-3.8 versus approximately 3). However, manual transmission does have a larger impact than automatic (24 vs 17, holding all other variables constant). 
