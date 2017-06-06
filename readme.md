@@ -2,7 +2,7 @@
 Yasneen Ashroff  
 September 1, 2016  
 # Instructions
-You work for Motor Trend, a magazine about the automobile industry. Looking at a data set of a collection of cars, they are interested in exploring the relationship between a set of variables and miles per gallon (MPG) (outcome). They are particularly interested in the following two questions:
+Looking at a data set of a collection of cars, explore the relationship between a set of variables and miles per gallon (MPG) (outcome). Focus on the following two questions:
 
 - Is an automatic or manual transmission better for MPG
 - Quantify the MPG difference between automatic and manual transmissions
@@ -33,7 +33,7 @@ summary(fit)$coef
 ## factor(am)1 24.39231   1.359578 17.94109 1.376283e-17
 ```
 
-We can see that value 1 (manual) has a higher coefficient and therefore has a higher impact on MPG. Plotting residuals vs Fitted values and Residuals vs Leverage, and the residuals are equally distributed around the fitted values. It does not appear that one value is skewing the results and the Q-Q plot indicates the population is approximately normal, so a poisson model is not required.
+We can see that value 1 (manual) has a higher coefficent and therefore has a higher impact on MPG. Plotting residuals vs Fitted values and Residuals vs Leverage, and the residuals are equally distributed around the fitted values. It does not appear that one value is skewing the results and the Q-Q plot indicates the population is approximately normal, so a poisson model is not required.
 
 ```r
 par(mfrow=c(2,2))
